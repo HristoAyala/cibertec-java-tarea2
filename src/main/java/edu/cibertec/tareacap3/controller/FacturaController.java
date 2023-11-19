@@ -32,49 +32,35 @@ public class FacturaController {
 
     @RequestMapping("facturaGrabar")
     private ModelAndView facturaGrabar(@ModelAttribute("facturaBean") FacturaEntity entity) {
-        facturaService.grabarFactura(buildMockFacturaEntity());
-        ModelAndView mv = new ModelAndView("factura", "facturaBean", buildMockFacturaEntity());
+        facturaService.grabarFactura(populateFacturaEntity(entity));
+        ModelAndView mv = new ModelAndView("factura", "facturaBean", buildFacturaEntity());
         return mv;
     }
 
     public FacturaEntity buildFacturaEntity(){
-        FacturaEntity fe = new FacturaEntity();
+        FacturaEntity factura = new FacturaEntity();
 
-        FacturaDetalleEntity fde1 = new FacturaDetalleEntity();
-        FacturaDetalleEntity fde2 = new FacturaDetalleEntity();
-        FacturaDetalleEntity fde3 = new FacturaDetalleEntity();
-
-        fde1.setFactura(fe);
-        fde2.setFactura(fe);
-        fde3.setFactura(fe);
-
-        List<FacturaDetalleEntity> fdList = new ArrayList<FacturaDetalleEntity>();
-        fdList.add(fde1);
-        fdList.add(fde2);
-        fdList.add(fde3);
-
-        fe.setDetalles(fdList);
-        return fe;
+        for (int i = 0; i < 3; i++) {
+            FacturaDetalleEntity detalle = new FacturaDetalleEntity();
+            factura.addFacturaDetalle(detalle);
+        }
+        return factura;
     }
 
-    public FacturaEntity buildMockFacturaEntity(){
-        FacturaEntity fe = new FacturaEntity();
-        fe.setNumero("1234599");
-        fe.setCliente("1234599");
-        fe.setMonto(100.0);
-        fe.setFecha("1234599");
-        fe.setMoneda("PER");
+    public FacturaEntity populateFacturaEntity(FacturaEntity entity){
+        FacturaEntity factura = new FacturaEntity();
+        factura.setNumero(entity.getNumero());
+        factura.setCliente(entity.getCliente());
+        factura.setMonto(entity.getMonto());
+        factura.setFecha(entity.getFecha());
+        factura.setMoneda(entity.getMoneda());
 
-        FacturaDetalleEntity fde1 = new FacturaDetalleEntity();
-
-        fde1.setIdDetalle(100);
-        fde1.setPrecioUnitario(10.0);
-        fde1.setCantidad(100);
-        fde1.setProducto("dsfsdfds");
-        fde1.setParcial(100.0);
-
-        fe.addFacturaDetalle(fde1);
-
-        return fe;
+        for (int i = 0; i < entity.getDetalles().size(); i++) {
+            FacturaDetalleEntity detalle = entity.getDetalles().get(i);
+            factura.addFacturaDetalle(detalle);
+        }
+        return factura;
     }
+
+
 }
