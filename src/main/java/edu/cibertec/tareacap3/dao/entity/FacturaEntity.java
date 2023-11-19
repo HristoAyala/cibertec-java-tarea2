@@ -2,6 +2,7 @@ package edu.cibertec.tareacap3.dao.entity;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,7 @@ public class FacturaEntity {
     private List<FacturaDetalleEntity> detalles;
 
     public FacturaEntity() {
+        this.detalles = new ArrayList<FacturaDetalleEntity>();
     }
 
     public FacturaEntity(String numero, String cliente, Double monto, String fecha, String moneda, List<FacturaDetalleEntity> detalles) {
@@ -69,6 +71,11 @@ public class FacturaEntity {
 
     public void setMoneda(String moneda) {
         this.moneda = moneda;
+    }
+
+    public void addFacturaDetalle(FacturaDetalleEntity detalle) {
+        detalles.add(detalle);
+        detalle.setFactura(this);
     }
 
     public List<FacturaDetalleEntity> getDetalles() {

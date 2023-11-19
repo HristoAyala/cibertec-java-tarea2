@@ -21,77 +21,86 @@
     <div class="row">
         <div class="col-sm-8">
             <!--BEGIN Formulario de Registro de Nueva Factura-->
-            <div class="card">
-                <div class="card-header">
-                    Registrar nueva Factura
-                </div>
-                <div class="card-body">
-                    FACTURA
-                    <form th:object="${facturaBean}" th:action="@{facturaGrabar.do}" enctype="multipart/form-data"
-                          method="post">
-                        FACTURA 2
-                        <div class="form-group row">
-                            <label for="numero" class="col-sm-2 col-form-label">Numero:</label>
-                            <div class="col-sm-4">
-                                <input id="numero" th:field="*{numero}" type="text" class="form-control">
-                            </div>
-                            <label for="cliente" class="col-sm-2 col-form-label">Cliente:</label>
-                            <div class="col-sm-4">
-                                <input id="cliente" th:field="*{cliente}" type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="monto" class="col-sm-2 col-form-label">Monto:</label>
-                            <div class="col-sm-4">
-                                <input id="monto" th:field="*{monto}" type="text" class="form-control">
-                            </div>
-                            <label for="fecha" class="col-sm-2 col-form-label">Fecha:</label>
-                            <div class="col-sm-4">
-                                <input id="fecha" th:field="*{fecha}" type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="moneda" class="col-sm-2 col-form-label">Moneda:</label>
-                            <div class="col-sm-4">
-                                <input id="moneda" th:field="*{moneda}" type="text" class="form-control">
-                            </div>
-                        </div>
-                        <input type="submit" value="Grabar" class="btn btn-primary button-submit"/>
-                    </form>
-                    FACTURA END
-                </div>
-            </div>
-            <!--END Formulario de Registro de Nueva Factura-->
+            <form th:object="${facturaBean}" th:action="@{facturaGrabar.do}" enctype="multipart/form-data"
+                  method="post">
+                <div class="card">
+                    <div class="card-header">
+                        Registrar nueva Factura
+                    </div>
+                    <div class="card-body">
 
-        <!--<div class="col-sm-4">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table">
+                            <div class="form-group row">
+                                <label for="numero" class="col-sm-2 col-form-label">Numero:</label>
+                                <div class="col-sm-4">
+                                    <input id="numero" th:field="*{numero}" type="text" class="form-control">
+                                </div>
+                                <label for="cliente" class="col-sm-2 col-form-label">Cliente:</label>
+                                <div class="col-sm-4">
+                                    <input id="cliente" th:field="*{cliente}" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="monto" class="col-sm-2 col-form-label">Monto:</label>
+                                <div class="col-sm-4">
+                                    <input id="monto" th:field="*{monto}" type="text" class="form-control">
+                                </div>
+                                <label for="fecha" class="col-sm-2 col-form-label">Fecha:</label>
+                                <div class="col-sm-4">
+                                    <input id="fecha" th:field="*{fecha}" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="moneda" class="col-sm-2 col-form-label">Moneda:</label>
+                                <div class="col-sm-4">
+                                    <input id="moneda" th:field="*{moneda}" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <!--<input type="submit" value="Grabar" class="btn btn-primary button-submit"/>-->
+
+                    </div>
+                </div>
+                <!--END Formulario de Registro de Nueva Factura-->
+
+
+                <div class="card">
+                    <div class="card-body">
                         <table class="table">
                             <thead class="thead-dark">
                             <tr class="info">
-                                <th>Numero</th>
-                                <th>Cliente</th>
-                                <th>Monto</th>
-                                <th>Fecha</th>
-                                <th>Moneda</th>
+                                <th>Id</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Parcial</th>
                             </tr>
-                            </thead>
                             <tbody>
-                            <tr th:each="factura : ${facturaList}">
-                                <td th:text="${factura.numero}"></td>
-                                <td th:text="${factura.cliente}"></td>
-                                <td th:text="${factura.monto}"></td>
-                                <td th:text="${#dates.format(factura.fecha, 'dd/MM/yyyy')}"></td>
-                                <td th:text="${factura.moneda}"></td>
+                            <tr th:each="detalle, detalleStat : ${facturaBean.detalles}">
+                                <td>
+                                    <input type="text" th:value="${detalle.idDetalle}" th:field="*{detalles[__${detalleStat.index}__].idDetalle}" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" th:value="${detalle.producto}" th:field="*{detalles[__${detalleStat.index}__].producto}" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" th:value="${detalle.cantidad}" th:field="*{detalles[__${detalleStat.index}__].cantidad}" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" th:value="${detalle.precioUnitario}" th:field="*{detalles[__${detalleStat.index}__].precioUnitario}" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" th:value="${detalle.parcial}" th:field="*{detalles[__${detalleStat.index}__].parcial}" class="form-control" />
+                                </td>
                             </tr>
                             </tbody>
                         </table>
+                        <input type="submit" value="Grabar Detalle de Factura" class="btn btn-primary button-submit"/>
                     </div>
                 </div>
-            </div>
-    </div>-->
+            </form>
+        </div>
+    </div>
     <br/><br/>
 </div>
 </body>
 </html>
+
